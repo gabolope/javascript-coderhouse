@@ -27,19 +27,24 @@
           box-shadow: 2px 3px gray;
 }
 
-.facilCard {
-  background-color: greenyellow;
+.easyCard {
+  color: greenyellow;
+  background-color: black;
+  border: solid 1px greenyellow;
+  border-radius: 5px;
 }
 
 .normalCard {
-  background-color: orange;
+  color: orange;
+  background-color: black;
+  border: solid 1px orange;
+  border-radius: 5px;
 }
 
-.dificilCard {
-  background-color: red;
-}
-
-.noActionCard {
-  background-color: grey;
+.hardCard {
+  color: orangered;
+  background-color: black;
+  border: solid 1px orangered;
+  border-radius: 5px;
 }
 /*# sourceMappingURL=styles.css.map */

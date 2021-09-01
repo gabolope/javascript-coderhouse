@@ -12,8 +12,22 @@
     <div class="hero container-fluid d-flex">
         <h2 class="titulo mx-auto my-auto">Machete de laboratorio</h2>
     </div>
+    <div id="taskAdd" class="container text-center mt-3">
+        <input id="name" type="text" placeholder="Ingresá el nombre de la tarea">
+        <input id="date" type="date">
+        <select id="difficulty" name="difficulty">
+            <option value="easy">Fácil</option>
+            <option value="normal" selected>Normal</option>
+            <option value="hard">Difícil</option>
+        </select>
+        <input id="priority" type="number" placeholder="Ingresá el número de prioridad">
+        <button onclick="addTask()">Agregar Tarea</button>
+    </div>
     <div class="sectionTittle container text-center">
         Listado de Tareas
+    </div>
+    <div id="taskList">
+
     </div>
     <!-- <script src="js/jquery-3.5.1.slim.min.js"></script>
     <script src="bootstrap-4.5/js/bootstrap.bundle.min.js"></script> -->
