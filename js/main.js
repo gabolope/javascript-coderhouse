@@ -21,14 +21,30 @@ let addTask = () => {
         return (b.priority - a.priority)
     });
     acumulator += `
-    <div class="${difficulty}Card">
-        <h3> ${name}<h3>
-        <h4>Fecha: ${date}</h4>
-        <h4>Dificultad: ${difficulty}<h4> 
-        <h4>Prioridad: ${priority}<h4>
-    </div>
-    `
-    document.getElementById("taskList").innerHTML = acumulator; 
+        <div id="${name}" class="${difficulty}Card">
+            <h3> ${name}<h3>
+            <h4>Fecha: ${date}</h4>
+            <h4>Dificultad: ${difficulty}<h4> 
+            <h4>Prioridad: ${priority}<h4>
+            <button onclick="deleteTask('${name}')">Borrar</button>
+        </div>
+    `;
+    document.getElementById("taskList").innerHTML = acumulator;
+    document.getElementById("taskCounter").innerHTML = tasks.length;
+    console.log(tasks)
+}
+
+let deleteTask = (deleted) => {
+    const index = tasks.indexOf(item => item.name === deleted);
+    console.log(deleted);
+    console.log(index);
+    if (index > -1) {
+        tasks.splice(index, 1);
+    } 
+    const deletedTask = document.getElementById(deleted);
+    deletedTask.parentNode.removeChild(deletedTask);
+    document.getElementById("taskCounter").innerHTML = tasks.length;
+    console.log(tasks)
 }
 
 //TODO: agregar un contador de número de tareas totales. al lado un número de tareas importantes.

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="bootstrap-4.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/styles.css">
+    <script src="/js/main.js" defer></script>
     <title>machete de Laboratorio</title>
 </head>
 <body>
@@ -26,11 +27,12 @@
     <div class="sectionTittle container text-center">
         Listado de Tareas
     </div>
-    <div id="taskList">
-
+    <div class="taskCount container row">
+        <div class="col-9">
+            Tareas pendientes:
+        </div>
+        <div id="taskCounter" class="col-3">0</div>
     </div>
-    <!-- <script src="js/jquery-3.5.1.slim.min.js"></script>
-    <script src="bootstrap-4.5/js/bootstrap.bundle.min.js"></script> -->
-    <script src="/js/main.js"></script>
+    <div id="taskList"></div>
 </body>
 </html>
