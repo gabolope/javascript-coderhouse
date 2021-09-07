@@ -20,32 +20,43 @@ let addTask = () => {
     tasks.sort(function (a, b) {
         return (b.priority - a.priority)
     });
-    acumulator += `
-        <div id="${name}" class="${difficulty}Card">
-            <h3> ${name}<h3>
-            <h4>Fecha: ${date}</h4>
-            <h4>Dificultad: ${difficulty}<h4> 
-            <h4>Prioridad: ${priority}<h4>
-            <button onclick="deleteTask('${name}')">Borrar</button>
-        </div>
-    `;
-    document.getElementById("taskList").innerHTML = acumulator;
+    
     document.getElementById("taskCounter").innerHTML = tasks.length;
-    console.log(tasks)
+    console.log(tasks);
 }
 
 let deleteTask = (deleted) => {
-    const index = tasks.indexOf(item => item.name === deleted);
-    console.log(deleted);
-    console.log(index);
+    const index = tasks.findIndex(task => task.name === deleted)
+    console.log(index)
     if (index > -1) {
         tasks.splice(index, 1);
-    } 
+    }
+    console.log(tasks)
     const deletedTask = document.getElementById(deleted);
     deletedTask.parentNode.removeChild(deletedTask);
-    document.getElementById("taskCounter").innerHTML = tasks.length;
-    console.log(tasks)
+    document.getElementById("taskCounter").innerText = tasks.length;
 }
+
+let showTasks = () => {
+    tasks.forEach(task =>
+        acumulator += `
+            <div id="${task.name}" class="${task.difficulty}Card">
+                <h3> ${task.name}<h3>
+                <h4>Fecha: ${task.date}</h4>
+                <h4>Dificultad: ${task.difficulty}<h4> 
+                <h4>Prioridad: ${task.priority}<h4>
+                <button onclick="deleteTask('${task.name}')">Borrar</button>
+            </div>
+        `  
+    )
+    document.getElementById("taskList").innerHTML = acumulator;
+}
+
+let hideTasks = () => {
+    acumulator = ``;
+    document.getElementById("taskList").innerHTML = acumulator;
+}
+
 
 //TODO: agregar un contador de número de tareas totales. al lado un número de tareas importantes.
 //TODO: hacer que se imprima la dificultad en español. 
