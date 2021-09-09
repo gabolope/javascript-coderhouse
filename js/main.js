@@ -9,7 +9,23 @@ class Task {
 
 const tasks = [];
 
-let acumulator = ``;
+let indentifyUser = () => {
+    if (localStorage.userName == null){
+        let name = prompt("Ingrese su nombre de usuario");
+        localStorage.setItem("userName", name);
+        console.log(localStorage.userName)
+    }else{
+        document.getElementById("userGreeting").innerHTML = `Buen día ${localStorage.userName}`;
+    }
+}
+
+indentifyUser();
+
+let greetUser = () => {
+    document.getElementById("userGreeting").innerHTML = `Buen día ${localStorage.userName}`;
+}
+
+greetUser();
 
 let addTask = () => {
     let name = document.getElementById("name").value;
@@ -20,10 +36,26 @@ let addTask = () => {
     tasks.sort(function (a, b) {
         return (b.priority - a.priority)
     });
-    
-    document.getElementById("taskCounter").innerHTML = tasks.length;
     console.log(tasks);
-}
+    let acumulator = ``;
+    tasks.forEach(task =>
+        acumulator += 
+        `
+            <div id="${task.name}" class="card-body mb-4 col-3">
+                <div class="small text-muted">Fecha: ${task.date}</div> 
+                <h2 class="card-title h4">${task.name}</h2>
+                <p class="card-text">Dificultad: ${task.difficulty}</p> 
+                <p class="card-text">Prioridad: ${task.priority}</p>
+                <button onclick="deleteTask('${task.name}')" class="btn btn-primary">Borrar</button>
+            </div>
+
+        `
+        //TODO: validar que el usuario escriba un nombre  
+        //TODO: cambiar el nombre de la dificultad a español para mostrarlo al usuario, y cambiar el color de la fuente según la dificultad
+        )
+    document.getElementById("taskList").innerHTML = acumulator;
+    document.getElementById("taskCounter").innerHTML = tasks.length;
+    }
 
 let deleteTask = (deleted) => {
     const index = tasks.findIndex(task => task.name === deleted)
@@ -37,30 +69,7 @@ let deleteTask = (deleted) => {
     document.getElementById("taskCounter").innerText = tasks.length;
 }
 
-let showTasks = () => {
-    tasks.forEach(task =>
-        acumulator += `
-            <div id="${task.name}" class="${task.difficulty}Card">
-                <h3> ${task.name}<h3>
-                <h4>Fecha: ${task.date}</h4>
-                <h4>Dificultad: ${task.difficulty}<h4> 
-                <h4>Prioridad: ${task.priority}<h4>
-                <button onclick="deleteTask('${task.name}')">Borrar</button>
-            </div>
-        `  
-    )
-    document.getElementById("taskList").innerHTML = acumulator;
-}
 
-let hideTasks = () => {
-    acumulator = ``;
-    document.getElementById("taskList").innerHTML = acumulator;
-}
-
-
-//TODO: agregar un contador de número de tareas totales. al lado un número de tareas importantes.
-//TODO: hacer que se imprima la dificultad en español. 
-//TODO: agregar un botón de eliminar tarea en la card.
 //TODO: agregar botón de limpiar formulario de tarea nueva. 
 //TODO: cambiar número de prioridad por un botón que suba o baje la tarea en el listado, este botón va a cambiar la posición de la tarea en el array de tareas.
 

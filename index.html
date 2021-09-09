@@ -1,40 +1,144 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="bootstrap-4.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/styles.css">
-    <script src="/js/main.js" defer></script>
-    <title>machete de Laboratorio</title>
-</head>
-<body>
-    <div class="hero container-fluid d-flex">
-        <h2 class="titulo mx-auto my-auto">Machete de laboratorio</h2>
-    </div>
-    <div id="taskAdd" class="container text-center mt-3">
-        <input id="name" type="text" placeholder="Ingresá el nombre de la tarea">
-        <input id="date" type="date">
-        <select id="difficulty" name="difficulty">
-            <option value="easy">Fácil</option>
-            <option value="normal" selected>Normal</option>
-            <option value="hard">Difícil</option>
-        </select>
-        <input id="priority" type="number" placeholder="Ingresá el número de prioridad">
-        <button onclick="addTask()">Agregar Tarea</button>
-    </div>
-    <div class="sectionTittle container text-center">
-        Listado de Tareas
-    </div>
-    <button onclick="showTasks()">Mostrar todas las tareas</button>
-    <button onclick="hideTasks()">Ocultar las tareas</button>
-    <div class="taskCount container row">
-        <div class="col-9">
-            Tareas pendientes:
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>MisTareas</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+        <!-- Mi script de JS-->
+        <script src="js/main.js" defer></script>
+    </head>
+    <body>
+        <!-- Responsive navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="#!">Mis Tareas</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Header con Hero Image -->
+        <header class="py-5 bg-light border-bottom mb-4">
+            <div class="container">
+                <div class="text-center my-5">
+                    <h1 id="userGreeting"class="fw-bolder">¡Buen día!</h1> <!--TODO: cambiar el saludo según la hora del día-->
+                    <p class="lead mb-0">¿Qué hay que hacer hoy?</p> <!--TODO: poner frases de saludos aleatorios que se tomen de un array que yo defina-->
+                </div>
+            </div>
+        </header>
+        <!-- Page content-->
+        <div class="container">
+            <div class="row">
+                <!-- Tareas -->
+                <div class="col-lg-8">
+                    <!-- Agregar Tarea Card -->
+                    <div class="card mb-4"> <!--TODO: arreglar la estética del formulario de ingreso de datos-->
+                        <div id="taskAdd" class="container text-center mt-3">
+                            <div class="card-title">Agregar nueva tarea:</div>
+                            <form>
+                                <div class="mb-3 text-start">
+                                    <label for="name" class="form-label ">Nombre de la tarea:</label>
+                                    <input type="text" class="form-control" id="name" aria-describedby="nameHelp">
+                                    <div id="nameHelp" class="form-text">Ingrese el nombre de la tarea</div>
+                                </div>
+                                <div class="mb-3 text-start">
+                                    <label for="date" class="form-label">Fecha:</label>
+                                    <input type="date" class="form-control" id="date">
+                                </div>
+                                <div class="mb-3 text-start">
+                                    <label class="difficulty" for="difficulty">Dificultad:</label>
+                                    <select id="difficulty" name="difficulty">
+                                        <option value="easy">Fácil</option>
+                                        <option value="normal" selected>Normal</option>
+                                        <option value="hard">Difícil</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3 text-start">
+                                    <label for="priority" class="form-label">Prioridad</label>
+                                    <input type="number" class="form-control" id="priority" aria-describedby="priorityHelp" min="1" max="10" value="1">
+                                    <div id="priorityHelp" class="form-text">A mayor número, mayor prioridad</div>
+                                </div>
+                                <button onclick="addTask()" class="btn btn-primary mb-3">Agregar</button>
+                            </form>                            
+                        </div>                        
+                    </div>
+                    <!-- Listado de tareas-->
+                    <div>
+                        <div id="taskList" class= "row"></div>
+                    </div>
+                    <!-- Pagination
+                    <nav aria-label="Pagination">
+                        <hr class="my-0" />
+                        <ul class="pagination justify-content-center my-4">
+                            <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Newer</a></li>
+                            <li class="page-item active" aria-current="page"><a class="page-link" href="#!">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#!">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#!">3</a></li>
+                            <li class="page-item disabled"><a class="page-link" href="#!">...</a></li>
+                            <li class="page-item"><a class="page-link" href="#!">15</a></li>
+                            <li class="page-item"><a class="page-link" href="#!">Older</a></li>
+                        </ul>
+                    </nav>-->
+                </div>
+                <!-- Side widgets-->
+                <div class="col-lg-4">
+                    <!-- Resumen de tareas-->
+                    <div class="card mb-4">
+                        <div class="card-header">Resumen</div>
+                        <div class="card-body">Número de tareas pendientes:</div>
+                        <div id="taskCounter" class="card-body">0</div>
+                    </div>
+                    <!-- Search widget-->
+                    <div class="card mb-4">
+                        <div class="card-header">Buscar</div>
+                        <div class="card-body">
+                            <div class="input-group">
+                                <input class="form-control" type="text" placeholder="ESTO NO FUNCIONA" aria-label="Enter search term..." aria-describedby="button-search" />
+                                <button class="btn btn-primary" id="button-search" type="button">Go!</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Categories widget-->
+                    <div class="card mb-4">
+                        <div class="card-header">Categories (CAMBIAR)</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <ul class="list-unstyled mb-0">
+                                        <li><a href="#!">Web Design</a></li>
+                                        <li><a href="#!">HTML</a></li>
+                                        <li><a href="#!">Freebies</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-6">
+                                    <ul class="list-unstyled mb-0">
+                                        <li><a href="#!">JavaScript</a></li>
+                                        <li><a href="#!">CSS</a></li>
+                                        <li><a href="#!">Tutorials</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div id="taskCounter" class="col-3">0</div>
-    </div>
-    <div id="taskList"></div>
-</body>
+        <!-- Footer-->
+        <footer class="py-5 bg-dark">
+            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Gabriel Alejandro López 2021</p></div>
+        </footer>
+        <!-- Bootstrap core JS 
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>-->
+    </body>
 </html>
