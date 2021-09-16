@@ -9,24 +9,54 @@ class Task {
 
 const tasks = [];
 
+//Identificador de usuario
 let indentifyUser = () => {
-    if (localStorage.userName == null){
+    if (localStorage.userName == null) {
         let name = prompt("Ingrese su nombre de usuario");
         localStorage.setItem("userName", name);
         console.log(localStorage.userName)
-    }else{
+    } else {
         document.getElementById("userGreeting").innerHTML = `Buen día ${localStorage.userName}`;
     }
 }
-
 indentifyUser();
 
-let greetUser = () => {
-    document.getElementById("userGreeting").innerHTML = `Buen día ${localStorage.userName}`;
+//Saludador de usuario según hora del día
+function checkTime(i) {
+    if (i < 10) {
+        i = "0" + i;
+    }
+    return i;
 }
-
+function greetUser() {
+    var today = new Date();
+    var h = today.getHours();
+    var m = today.getMinutes();
+    // var s = today.getSeconds();
+    m = checkTime(m);
+    // s = checkTime(s);
+    document.getElementById('ct').innerHTML = h + ":" + m;
+    t = setTimeout(function () {
+        greetUser()
+    }, 500);
+    if (h >= 5 && h < 13) {
+        document.getElementById("userGreeting").innerHTML = `Buen día ${localStorage.userName}`;
+    }else if(h >= 13 && h <=18) {
+        document.getElementById("userGreeting").innerHTML = `Buenas tardes ${localStorage.userName}`;
+    }else {
+        document.getElementById("userGreeting").innerHTML = `Buenas noches ${localStorage.userName}`;
+    }
+}
 greetUser();
 
+//Selector de frases aleatorias
+randomPhrase = () => {
+    phrase = phrases[Math.floor(Math.random() * phrases.length)];
+    document.getElementById("phrase").innerHTML = phrase;
+}
+randomPhrase()
+
+//Agregador y mostrador de tareas
 let addTask = () => {
     let name = document.getElementById("name").value;
     let date = document.getElementById("date").value;
@@ -39,7 +69,7 @@ let addTask = () => {
     console.log(tasks);
     let acumulator = ``;
     tasks.forEach(task =>
-        acumulator += 
+        acumulator +=
         `
             <div id="${task.name}" class="card-body mb-4 col-3">
                 <div class="small text-muted">Fecha: ${task.date}</div> 
@@ -48,15 +78,15 @@ let addTask = () => {
                 <p class="card-text">Prioridad: ${task.priority}</p>
                 <button onclick="deleteTask('${task.name}')" class="btn btn-primary">Borrar</button>
             </div>
-
         `
         //TODO: validar que el usuario escriba un nombre  
         //TODO: cambiar el nombre de la dificultad a español para mostrarlo al usuario, y cambiar el color de la fuente según la dificultad
-        )
+    )
     document.getElementById("taskList").innerHTML = acumulator;
     document.getElementById("taskCounter").innerHTML = tasks.length;
-    }
+}
 
+//Borrador de tareas
 let deleteTask = (deleted) => {
     const index = tasks.findIndex(task => task.name === deleted)
     console.log(index)
@@ -69,9 +99,28 @@ let deleteTask = (deleted) => {
     document.getElementById("taskCounter").innerText = tasks.length;
 }
 
-
 //TODO: agregar botón de limpiar formulario de tarea nueva. 
 //TODO: cambiar número de prioridad por un botón que suba o baje la tarea en el listado, este botón va a cambiar la posición de la tarea en el array de tareas.
 
+//Buscador de tareas (jQuery)
 
+let searchTerm = () => {
+    let term = $('#search').val();
+    const foundTask = tasks.filter(task => task.name == term);
+    let acumulator = ``;
+    foundTask.forEach(task =>
+        acumulator +=
+        `
+            <div id="${task.name}" class="card-body mb-4 col-3">
+                <div class="small text-muted">Fecha: ${task.date}</div> 
+                <h2 class="card-title h4">${task.name}</h2>
+                <p class="card-text">Dificultad: ${task.difficulty}</p> 
+                <p class="card-text">Prioridad: ${task.priority}</p>
+                <button onclick="deleteTask('${task.name}')" class="btn btn-primary">Borrar</button>
+            </div>
+        `
+    )
+    $('#search').change($('#taskList').html(acumulator)) //TODO: hacer que al borrar lo buscado vuelvan a aparecer todas las tareas
+}
 
+//TODO: hacer una función que imprima las tarjetas para no tener codigo repetido
