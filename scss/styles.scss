@@ -1,0 +1,29 @@
+.clock {
+    &-day {
+      &:before {
+        content: var(--timer-day);
+      }
+    }
+    &-hours {
+      &:before {
+        content: var(--timer-hours);
+      }
+    }
+    &-minutes {
+      &:before {
+        content: var(--timer-minutes);
+      }
+    }
+    &-seconds {
+      &:before {
+        content: var(--timer-seconds);
+      }
+    }
+  }
+
+#phrase{
+  display: none;
+}
+.taskCard{
+  display: none;
+}

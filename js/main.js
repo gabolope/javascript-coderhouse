@@ -71,39 +71,42 @@ let addTask = () => {
     tasks.forEach(task =>
         acumulator +=
         `
-            <div id="${task.name}" class="card-body mb-4 col-3">
+            <div id="${task.name}" class="card-body mb-4 col-4 taskCard">
                 <div class="small text-muted">Fecha: ${task.date}</div> 
                 <h2 class="card-title h4">${task.name}</h2>
                 <p class="card-text">Dificultad: ${task.difficulty}</p> 
                 <p class="card-text">Prioridad: ${task.priority}</p>
-                <button onclick="deleteTask('${task.name}')" class="btn btn-primary">Borrar</button>
+                <button id="deleteButton" onclick="deleteTask('${task.name}')" class="btn btn-primary">Borrar</button>
             </div>
         `
         //TODO: validar que el usuario escriba un nombre  
         //TODO: cambiar el nombre de la dificultad a español para mostrarlo al usuario, y cambiar el color de la fuente según la dificultad
+        
     )
     document.getElementById("taskList").innerHTML = acumulator;
     document.getElementById("taskCounter").innerHTML = tasks.length;
+    $(`.taskCard`).fadeIn(500)
+
 }
 
 //Borrador de tareas
 let deleteTask = (deleted) => {
     const index = tasks.findIndex(task => task.name === deleted)
-    console.log(index)
     if (index > -1) {
         tasks.splice(index, 1);
     }
-    console.log(tasks)
+    /* $('#deleteButton').click(() => { $(`#${deleted}`).slideUp('slow')}) */
     const deletedTask = document.getElementById(deleted);
     deletedTask.parentNode.removeChild(deletedTask);
-    document.getElementById("taskCounter").innerText = tasks.length;
+    $('#taskCounter').html(tasks.length);
+    document.getElementById("taskCounter").innerText = tasks.length
 }
 
 //TODO: agregar botón de limpiar formulario de tarea nueva. 
 //TODO: cambiar número de prioridad por un botón que suba o baje la tarea en el listado, este botón va a cambiar la posición de la tarea en el array de tareas.
 
-//Buscador de tareas (jQuery)
 
+//Buscador de tareas (jQuery)
 let searchTerm = () => {
     let term = $('#search').val();
     const foundTask = tasks.filter(task => task.name == term);
@@ -111,7 +114,7 @@ let searchTerm = () => {
     foundTask.forEach(task =>
         acumulator +=
         `
-            <div id="${task.name}" class="card-body mb-4 col-3">
+            <div id="${task.name}" class="card-body mb-4 col-4 taskCard">
                 <div class="small text-muted">Fecha: ${task.date}</div> 
                 <h2 class="card-title h4">${task.name}</h2>
                 <p class="card-text">Dificultad: ${task.difficulty}</p> 
@@ -124,3 +127,7 @@ let searchTerm = () => {
 }
 
 //TODO: hacer una función que imprima las tarjetas para no tener codigo repetido
+
+//Efectos con jQuery
+
+$("#phrase").fadeToggle(1000)
