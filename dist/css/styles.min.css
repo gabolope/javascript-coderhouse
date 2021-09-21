@@ -1,2 +1,2 @@
-.clock-day:before{content:var(--timer-day)}.clock-hours:before{content:var(--timer-hours)}.clock-minutes:before{content:var(--timer-minutes)}.clock-seconds:before{content:var(--timer-seconds)}#phrase{display:none}.taskCard{display:none}
+.clock-day:before{content:var(--timer-day)}.clock-hours:before{content:var(--timer-hours)}.clock-minutes:before{content:var(--timer-minutes)}.clock-seconds:before{content:var(--timer-seconds)}#userGreeting{display:none}#phrase{display:none}.taskCard{display:none}
 /*# sourceMappingURL=styles.min.css.map */

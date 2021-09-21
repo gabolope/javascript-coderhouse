@@ -130,4 +130,6 @@ let searchTerm = () => {
 
 //Efectos con jQuery
 
-$("#phrase").fadeToggle(1000)
+$("#userGreeting").slideDown(1000, function(){
+    $("#phrase").fadeToggle(1000)
+})
