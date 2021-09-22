@@ -8,11 +8,16 @@
         <title>MisTareas</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        <!-- Core theme CSS (includes Bootstrap)-->
+        <!-- CSS -->
+        <link rel="stylesheet" href="/bootstrap-4.5/css/bootstrap.css">
+        <link rel="stylesheet" href="/bootstrap-4.5/css/bootstrap-reboot.css">
+        <link rel="stylesheet" href="/bootstrap-4.5/css/bootstrap-grid.css">
         <link href="css/theme-styles.css" rel="stylesheet" />
         <link href="css/styles.css" rel="stylesheet" />
         <!-- jQuery -->
         <script src="js/jquery-3.5.1.min.js" defer></script>
+        <!-- JS de Bootstrap -->
+        <script src="/bootstrap-4.5/js/bootstrap.bundle.js" defer></script>
         <!-- Mi script de JS-->
         <script src="js/phrases.js" defer></script>
         <script src="js/main.js" defer></script>
@@ -26,19 +31,22 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#!">Información</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#!">Donar</a></li>
                     </ul>
                 </div>          
             </div>
         </nav>
+        <!-- User -->
+        <div id="userArea" class="container-fluid"></div>
         <!-- Header con Hero Image -->
         <header class="py-5 bg-light border-bottom mb-4">
             <div class="container">
                 <div class="text-center my-5">
-                    <h1 id="userGreeting"class="fw-bolder">¡Buen día!</h1> <!--TODO: cambiar el saludo según la hora del día-->
-                    <p id="phrase" class="lead mb-0">Frase </p> <!--TODO: poner frases de saludos aleatorios que se tomen de un array que yo defina-->
-                    <div id="ct" class="text-end">Hora</div>
+                    <h1 id="userGreeting"class="fw-bolder">¡Hola!</h1> 
+                    <p id="phrase" class="lead mb-0">Frase </p>
+                    <div id="time" class="text-end">Hora</div>
+                    <div id="date" class="text-end"></div>
                 </div>
             </div>
         </header>
@@ -48,7 +56,7 @@
                 <!-- Tareas -->
                 <div class="col-lg-8">
                     <!-- Agregar Tarea Card -->
-                    <div class="card mb-4"> <!--TODO: arreglar la estética del formulario de ingreso de datos-->
+                    <div class="card mb-4">
                         <div id="taskAdd" class="container text-center mt-3">
                             <div class="card-title">Agregar nueva tarea:</div>
                             <form>
@@ -110,7 +118,6 @@
                         <div class="card-body">
                             <div class="input-group">
                                 <input id="search" class="form-control" type="text" placeholder="Ingrese el término..." aria-label="Enter search term..." aria-describedby="button-search" oninput="searchTerm()"/>
-                                <!-- <button class="btn btn-primary" id="button-search" type="button" onclick="searchTerm()">Go!</button> -->
                             </div>
                         </div>
                     </div>

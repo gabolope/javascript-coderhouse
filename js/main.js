@@ -12,16 +12,27 @@ const tasks = [];
 //Identificador de usuario
 let indentifyUser = () => {
     if (localStorage.userName == null) {
-        let name = prompt("Ingrese su nombre de usuario");
-        localStorage.setItem("userName", name);
-        console.log(localStorage.userName)
+        document.getElementById("userArea").innerHTML = `
+        <form>
+            <div>Usted no se encuentra registrado</div>
+            <p>Por favor ingrese su nombre</p>
+            <input type="text" class="form-control mb-3" id="userName">
+            <button onclick="addUser()" class="btn btn-primary mb-3">Registrarme</button>
+        </form>
+        `;
     } else {
-        document.getElementById("userGreeting").innerHTML = `Buen día ${localStorage.userName}`;
+        greetUser();
     }
 }
 indentifyUser();
 
-//Saludador de usuario según hora del día
+let addUser = () => {
+    let userName = document.getElementById("userName").value;
+    console.log(userName);
+    localStorage.setItem("userName", userName);
+}
+
+//Saludadador según horario del día (fecha tomada de sistema del usuario)
 function checkTime(i) {
     if (i < 10) {
         i = "0" + i;
@@ -32,22 +43,19 @@ function greetUser() {
     var today = new Date();
     var h = today.getHours();
     var m = today.getMinutes();
-    // var s = today.getSeconds();
     m = checkTime(m);
-    // s = checkTime(s);
-    document.getElementById('ct').innerHTML = h + ":" + m;
+    document.getElementById('time').innerHTML = h + ":" + m;
     t = setTimeout(function () {
         greetUser()
     }, 500);
     if (h >= 5 && h < 13) {
         document.getElementById("userGreeting").innerHTML = `Buen día ${localStorage.userName}`;
-    }else if(h >= 13 && h <=18) {
+    } else if (h >= 13 && h <= 18) {
         document.getElementById("userGreeting").innerHTML = `Buenas tardes ${localStorage.userName}`;
-    }else {
+    } else {
         document.getElementById("userGreeting").innerHTML = `Buenas noches ${localStorage.userName}`;
     }
 }
-greetUser();
 
 //Selector de frases aleatorias
 randomPhrase = () => {
@@ -56,19 +64,10 @@ randomPhrase = () => {
 }
 randomPhrase()
 
-//Agregador y mostrador de tareas
-let addTask = () => {
-    let name = document.getElementById("name").value;
-    let date = document.getElementById("date").value;
-    let difficulty = document.getElementById("difficulty").value;
-    let priority = document.getElementById("priority").value;
-    tasks.push(new Task(name, date, difficulty, priority));
-    tasks.sort(function (a, b) {
-        return (b.priority - a.priority)
-    });
-    console.log(tasks);
+//Impresor de tareas
+let tasksPrinter = (tasksPrint) => {
     let acumulator = ``;
-    tasks.forEach(task =>
+    tasksPrint.forEach(task =>
         acumulator +=
         `
             <div id="${task.name}" class="card-body mb-4 col-4 taskCard">
@@ -79,14 +78,25 @@ let addTask = () => {
                 <button id="deleteButton" onclick="deleteTask('${task.name}')" class="btn btn-primary">Borrar</button>
             </div>
         `
-        //TODO: validar que el usuario escriba un nombre  
-        //TODO: cambiar el nombre de la dificultad a español para mostrarlo al usuario, y cambiar el color de la fuente según la dificultad
-        
+        //TODO: validar que el usuario escriba un nombre 
+        //TODO: cambiar el nombre de la dificultad a español para mostrarlo al usuario, y cambiar el color de la fuente según la dificultad   
     )
     document.getElementById("taskList").innerHTML = acumulator;
-    document.getElementById("taskCounter").innerHTML = tasks.length;
-    $(`.taskCard`).fadeIn(500)
+    $(`.taskCard`).fadeIn(500);
+}
 
+//Agregador de tareas
+let addTask = () => {
+    let name = document.getElementById("name").value;
+    let date = document.getElementById("date").value;
+    let difficulty = document.getElementById("difficulty").value;
+    let priority = document.getElementById("priority").value;
+    tasks.push(new Task(name, date, difficulty, priority));
+    tasks.sort(function (a, b) {
+        return (b.priority - a.priority)
+    });
+    tasksPrinter(tasks);
+    document.getElementById("taskCounter").innerHTML = tasks.length;
 }
 
 //Borrador de tareas
@@ -95,7 +105,6 @@ let deleteTask = (deleted) => {
     if (index > -1) {
         tasks.splice(index, 1);
     }
-    /* $('#deleteButton').click(() => { $(`#${deleted}`).slideUp('slow')}) */
     const deletedTask = document.getElementById(deleted);
     deletedTask.parentNode.removeChild(deletedTask);
     $('#taskCounter').html(tasks.length);
@@ -109,27 +118,26 @@ let deleteTask = (deleted) => {
 //Buscador de tareas (jQuery)
 let searchTerm = () => {
     let term = $('#search').val();
+    console.log(term)
     const foundTask = tasks.filter(task => task.name == term);
-    let acumulator = ``;
-    foundTask.forEach(task =>
-        acumulator +=
-        `
-            <div id="${task.name}" class="card-body mb-4 col-4 taskCard">
-                <div class="small text-muted">Fecha: ${task.date}</div> 
-                <h2 class="card-title h4">${task.name}</h2>
-                <p class="card-text">Dificultad: ${task.difficulty}</p> 
-                <p class="card-text">Prioridad: ${task.priority}</p>
-                <button onclick="deleteTask('${task.name}')" class="btn btn-primary">Borrar</button>
-            </div>
-        `
-    )
-    $('#search').change($('#taskList').html(acumulator)) //TODO: hacer que al borrar lo buscado vuelvan a aparecer todas las tareas
+    console.log(foundTask)
+    tasksPrinter(foundTask);
+    //TODO: hacer que el buscador encuentre resultados similares
+    //TODO: hacer que al borrar la búsqueda se vuelvan a mostrar todas las tareas 
 }
 
-//TODO: hacer una función que imprima las tarjetas para no tener codigo repetido
-
 //Efectos con jQuery
+$("#userArea").slideDown(1000)
+$("#phrase").fadeToggle(1000)
 
-$("#userGreeting").slideDown(1000, function(){
-    $("#phrase").fadeToggle(1000)
+//Utilizando API para obtener fecha según IP de usuario
+$.getJSON("http://worldtimeapi.org/api/ip", function (res) {
+    let unix_timestamp = res.unixtime;
+    let a = new Date(unix_timestamp * 1000);
+    let months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octtubre', 'Noviembre', 'Diciembre'];
+    let year = a.getFullYear();
+    let month = months[a.getMonth()];
+    let date = a.getDate();
+    let time = `${date} de ${month} de ${year}`;
+    document.getElementById("date").innerHTML = time
 })

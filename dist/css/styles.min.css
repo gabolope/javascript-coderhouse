@@ -1,2 +1,2 @@
-.clock-day:before{content:var(--timer-day)}.clock-hours:before{content:var(--timer-hours)}.clock-minutes:before{content:var(--timer-minutes)}.clock-seconds:before{content:var(--timer-seconds)}#userGreeting{display:none}#phrase{display:none}.taskCard{display:none}
+#userArea{display:none;background-color:brown;color:whitesmoke}#userArea div{font-size:1.5rem}#userArea p{font-style:italic}#userArea input{width:30vw}#phrase{display:none}.taskCard{display:none}
 /*# sourceMappingURL=styles.min.css.map */
