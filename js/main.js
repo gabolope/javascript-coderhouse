@@ -7,7 +7,6 @@ class Task {
     };
 };
 
-const tasks = [];
 
 //Identificador de usuario
 let indentifyUser = () => {
@@ -84,9 +83,32 @@ let tasksPrinter = (tasksPrint) => {
     document.getElementById("taskList").innerHTML = acumulator;
     $(`.taskCard`).fadeIn(500);
 }
+let tasks = [];
+
+//Guardador de tareas en JSON
+let checkStorageTasks = () => {
+    let storagedTasks = JSON.parse(localStorage.getItem("userTasks"));
+    if (storagedTasks == null) {
+        console.log("no hay tareas");
+        document.getElementById("taskList").innerHTML = `Aún no se han añadido tareas`; //TODO: mejorar el formato estético
+        let name = document.getElementById("name").value;
+        let date = document.getElementById("date").value;
+        let difficulty = document.getElementById("difficulty").value;
+        let priority = document.getElementById("priority").value;
+        tasks.push(new Task(name, date, difficulty, priority));
+        let storagedTasks = JSON.stringify(tasks);
+        localStorage.setItem("userTasks", storagedTasks)
+    } else {
+        tasksPrinter(storagedTasks);
+        document.getElementById("taskCounter").innerHTML = storagedTasks.length;
+    }
+}
+checkStorageTasks()
 
 //Agregador de tareas
 let addTask = () => {
+    let tasks = JSON.parse(localStorage.getItem("userTasks"));
+    console.log(tasks)
     let name = document.getElementById("name").value;
     let date = document.getElementById("date").value;
     let difficulty = document.getElementById("difficulty").value;
@@ -96,26 +118,34 @@ let addTask = () => {
         return (b.priority - a.priority)
     });
     tasksPrinter(tasks);
+    let storagedTasks = JSON.stringify(tasks);
+    localStorage.setItem("userTasks", storagedTasks);
+    console.log(localStorage.getItem("userTasks"))
     document.getElementById("taskCounter").innerHTML = tasks.length;
 }
 
+
 //Borrador de tareas
 let deleteTask = (deleted) => {
-    const index = tasks.findIndex(task => task.name === deleted)
+    let storagedTasks = JSON.parse(localStorage.getItem("userTasks"))
+    const index = storagedTasks.findIndex(task => task.name === deleted)
+    console.log(index)
     if (index > -1) {
-        tasks.splice(index, 1);
+        storagedTasks.splice(index, 1);
     }
+    console.log(storagedTasks);
     const deletedTask = document.getElementById(deleted);
     deletedTask.parentNode.removeChild(deletedTask);
-    $('#taskCounter').html(tasks.length);
-    document.getElementById("taskCounter").innerText = tasks.length
+    $('#taskCounter').html(storagedTasks.length);
+    localStorage.setItem("userTasks", storagedTasks);
+    console.log(localStorage.getItem("userTasks"))
 }
 
 //TODO: agregar botón de limpiar formulario de tarea nueva. 
 //TODO: cambiar número de prioridad por un botón que suba o baje la tarea en el listado, este botón va a cambiar la posición de la tarea en el array de tareas.
 
 
-//Buscador de tareas (jQuery)
+//Buscador de tareas
 let searchTerm = () => {
     let term = $('#search').val();
     console.log(term)
