@@ -1,3 +1,20 @@
+#header{
+  background-image: url(/media/hero.jpg) !important;
+  background-size: cover;
+  background-position: center;
+  color: whitesmoke;
+  text-shadow: 1px 2px black;
+  position: relative;
+  z-index: 1;
+  &::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(to right, #3e5151, #decba4);
+    mix-blend-mode: multiply;
+  }
+}
 #userArea{
   display: none;
   background-color: brown;
@@ -15,6 +32,46 @@
 #phrase{
   display: none;
 }
+.noTaskCard{
+  border-radius: 5px;
+  max-width: 500px;
+  padding: 5px;
+  text-align: center;
+  font-size: 1.25rem;
+  font-style: italic;
+  box-shadow: 1px 5px 5px grey;
+  margin-bottom: 1rem;
+}
 .taskCard{
   display: none;
+  border-radius: 5px;
+  margin: 1rem;
+  max-width: 200px;
+  box-shadow: 1px 5px 5px grey;
+}
+.Fácil{
+  border: greenyellow 2px solid;
+}
+.Normal{
+  border: orangered 2px solid;
+}
+.Difícil{
+  border: red 2px solid;
+}
+#info{
+  background-color: honeydew;
+  border: 2px grey solid;
+  border-radius: 5px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: .5rem;
+  position:relative;
+  img{
+    width: 2rem;
+  }
+  #close{
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
+  }
 }
