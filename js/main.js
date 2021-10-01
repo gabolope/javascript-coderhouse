@@ -15,9 +15,9 @@ const indentifyUser = () => {
         <form>
             <div>No estás registrado</div>
             <p>Por favor ingresá tu nombre</p>
-            <input type="text" class="form-control mb-3" id="userName">
-            <button onclick="addUser()" class="btn btn-primary mb-3">Registrarme</button>
+            <input type="text" class="form-control mb-3" id="userName" oninput="validateUserName()" value="Nuevo Usuario">
         </form>
+        <button id="addUserButton" onclick="addUser()" class="btn btn-primary mb-3">Registrarme</button>
         `;
     } else {
         greetUser();
@@ -29,6 +29,17 @@ const addUser = () => {
     let userName = document.getElementById("userName").value;
     const userNameCapitalized = userName.charAt(0).toUpperCase() + userName.slice(1)
     localStorage.setItem("userName", userNameCapitalized);
+    location.reload();
+}
+
+//Validate User Name
+const validateUserName = () => {
+    let name = document.getElementById("userName").value;
+    if(name == ""){
+        document.getElementById("addUserButton").classList.add("disabled");
+    }else{
+        document.getElementById("addUserButton").classList.remove("disabled");
+    }
 }
 
 //Greeting user according sistem date
@@ -76,7 +87,6 @@ const tasksPrinter = (tasksPrint) => {
                 <button id="deleteButton" onclick="deleteTask('${task.name}')" class="btn btn-primary">Borrar</button>
             </div>
         `
-        //TODO: validar que el usuario escriba un nombre 
     )
     document.getElementById("taskList").innerHTML = acumulator;
     $(`.taskCard`).fadeIn(500);
@@ -117,6 +127,16 @@ const addTask = () => {
     document.getElementById("taskCounter").innerHTML = tasks.length;
 }
 
+//Validate name
+const validateName = () => {
+    let name = document.getElementById("name").value;
+    if(name == ""){
+        document.getElementById("addTaskButton").classList.add("disabled");
+    }else{
+        document.getElementById("addTaskButton").classList.remove("disabled");
+    }
+}
+
 //Deleting tasks
 const deleteTask = (deleted) => {
     let tasks = JSON.parse(localStorage.getItem("userTasks"));
@@ -130,8 +150,6 @@ const deleteTask = (deleted) => {
     let storagedTasks = JSON.stringify(tasks);
     localStorage.setItem("userTasks", storagedTasks);
 }
-
-//TODO: agregar botón de limpiar formulario de tarea nueva. 
 //TODO: cambiar número de prioridad por un botón que suba o baje la tarea en el listado, este botón va a cambiar la posición de la tarea en el array de tareas.
 
 //Task finder
@@ -155,7 +173,7 @@ $("#phrase").fadeToggle(1000)
 $.getJSON("http://worldtimeapi.org/api/ip", function (res) {
     let unix_timestamp = res.unixtime;
     let a = new Date(unix_timestamp * 1000);
-    let months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octtubre', 'Noviembre', 'Diciembre'];
+    let months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
     let year = a.getFullYear();
     let month = months[a.getMonth()];
     let date = a.getDate();
