@@ -107,7 +107,7 @@ const checkStorageTasks = () => {
 }
 checkStorageTasks()
 
-//Adding tasks
+//Adding new tasks
 const addTask = () => {
     let tasks = JSON.parse(localStorage.getItem("userTasks"));
     let name = document.getElementById("name").value;
@@ -127,10 +127,11 @@ const addTask = () => {
     document.getElementById("taskCounter").innerHTML = tasks.length;
 }
 
-//Validate name
+//Validating task name and priority while typing
 const validateName = () => {
     let name = document.getElementById("name").value;
-    if(name == ""){
+    let priority = document.getElementById("priority").value;
+    if(name == "" || priority == "" || priority > 10 || priority <= 0){
         document.getElementById("addTaskButton").classList.add("disabled");
     }else{
         document.getElementById("addTaskButton").classList.remove("disabled");
@@ -150,7 +151,6 @@ const deleteTask = (deleted) => {
     let storagedTasks = JSON.stringify(tasks);
     localStorage.setItem("userTasks", storagedTasks);
 }
-//TODO: cambiar número de prioridad por un botón que suba o baje la tarea en el listado, este botón va a cambiar la posición de la tarea en el array de tareas.
 
 //Task finder
 const searchTerm = () => {
@@ -162,7 +162,6 @@ const searchTerm = () => {
         const foundTask = tasks.filter(task => task.name == term);
         tasksPrinter(foundTask);
     }
-    //TODO: hacer que el buscador encuentre resultados similares
 }
 
 //jQuery effects
@@ -208,17 +207,17 @@ const filterDifficulty = () => {
 //Displaying information
 const showInfo = () => {
     document.getElementById("information").innerHTML = `
-    <div id="info"class="container">
+    <div id="info" class="container">
         <h3>¡Gracias por utilizar MisTareas!</h3>
-        <p>MisTareas es una aplicación web desarrollada como proyecto final.</p>
-        <div>Podés ver el codigo libremente en <a href="https://github.com/gabolope/javascript-coderhouse">GitHub</a></div>
-        <p>Seguime en mis redes:</p>
+        <p>MisTareas es una aplicación web desarrollada como proyecto final para CoderHouse.</p>
+        <div class="invitation">Podés ver el codigo libremente en <a href="https://github.com/gabolope/javascript-coderhouse" target="blank">GitHub</a></div>
+        <p>Seguime en:</p>
         <div class="container row">
             <div class="col-2 mx-auto">
-                <a href="https://github.com/gabolope/"><img src="media/icons/github.svg" alt="GitHub"></a>
+                <a href="https://github.com/gabolope/" target="blank"><img src="media/icons/github.svg" alt="GitHub"></a>
             </div>
             <div class="col-2 mx-auto">
-                <a href="https://www.linkedin.com/in/gabriel-alejandro-l%C3%B3pez-14190720a/"><img src="media/icons/linkedin.svg" alt="Linkedin"></a>
+                <a href="https://www.linkedin.com/in/gabriel-alejandro-l%C3%B3pez-14190720a/" target="blank"><img src="media/icons/linkedin.svg" alt="Linkedin"></a>
             </div>
         </div>
         <a href="#!"><img id="close" onclick="closeInfo()" src="media/icons/x.svg" alt="Close"></a>

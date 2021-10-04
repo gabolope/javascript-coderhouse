@@ -79,8 +79,8 @@
                             <div class="mb-3 text-start">
                                 <label for="priority" class="form-label">Prioridad</label>
                                 <input type="number" class="form-control" id="priority" aria-describedby="priorityHelp"
-                                    min="1" max="10" value="1">
-                                <div id="priorityHelp" class="form-text">A mayor número, mayor prioridad</div>
+                                    min="1" max="10" value="1" oninput="validateName()">
+                                <div id="priorityHelp" class="form-text">Ingrese el número de prioridad (1-10).</div>
                             </div>
                         </form>
                         <button id="addTaskButton" onclick="addTask()" class="btn btn-primary mb-3">Agregar</button>
@@ -137,7 +137,7 @@
     <!-- Footer-->
     <footer class="py-5 bg-dark">
         <div class="container">
-            <p class="m-0 text-center text-white">Copyright &copy; Gabriel Alejandro López 2021</p>
+            <p class="m-0 text-center text-white">Desarrollado por Gabriel Alejandro López 2021</p>
         </div>
     </footer>
     <!-- Bootstrap core JS -->

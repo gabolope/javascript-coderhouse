@@ -1,6 +1,6 @@
 @charset "UTF-8";
 #header {
-  background-image: url(/media/hero.jpg) !important;
+  background-image: url(../media/hero.jpg) !important;
   background-size: cover;
   background-position: center;
   color: whitesmoke;
@@ -84,6 +84,16 @@
   position: relative;
 }
 
+#info p {
+  margin-bottom: 0;
+  font-style: italic;
+}
+
+#info .invitation {
+  font-weight: 800;
+  margin-bottom: .5rem;
+}
+
 #info img {
   width: 2rem;
 }
@@ -92,5 +102,9 @@
   position: absolute;
   top: .5rem;
   right: .5rem;
+}
+
+#info a {
+  text-decoration: none;
 }
 /*# sourceMappingURL=styles.css.map */
